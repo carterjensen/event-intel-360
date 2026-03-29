@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Intelligence Brief - From Overwhelmed to Superhuman</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --evergreen: #23392F;
+            --deep-forest: #192520;
+            --stone: #FDFFF2;
+            --sage: #9EAF9F;
+            --highlight: #F0FE91;
+            --found-green: #2D5A3F;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Inter, -apple-system, 'Segoe UI', sans-serif;
+            background-color: var(--stone);
+            color: var(--deep-forest);
+            line-height: 1.6;
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3 { font-family: Georgia, 'Times New Roman', serif; }
+        h1 { font-size: 3.5rem; line-height: 1.2; color: var(--evergreen); }
+        h2 { font-size: 2rem; margin: 2rem 0 1rem; color: var(--evergreen); }
+        h3 { font-size: 1.3rem; color: var(--evergreen); margin: 1.5rem 0 0.75rem; }
+        .em { font-style: italic; }
+
+        /* NAV */
+        nav {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid var(--sage);
+            padding: 1rem 2rem;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo { height: 30px; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--evergreen); text-decoration: none; font-weight: 500; font-size: 0.9rem; }
+        .nav-links a:hover { color: var(--highlight); }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, var(--evergreen) 0%, var(--deep-forest) 100%);
+            color: var(--stone);
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(240, 254, 145, 0.05);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+        .hero-label { font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; color: var(--highlight); margin-bottom: 1rem; font-weight: 600; }
+        .hero-title { font-size: 3.5rem; margin-bottom: 1.5rem; line-height: 1.2; color: var(--stone); }
+        .hero-subtitle { font-size: 1.5rem; margin-bottom: 2rem; opacity: 0.95; }
+        .hero-meta { font-size: 1rem; opacity: 0.85; display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
+
+        /* CARDS */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(35, 57, 47, 0.08);
+            border: 1px solid rgba(158, 175, 159, 0.3);
+        }
+
+        .card-title { font-weight: 600; margin-bottom: 0.5rem; }
+        .card-value { font-size: 1.1rem; color: var(--evergreen); font-weight: 700; }
+
+        /* SECTIONS */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section.dark {
+            background: var(--evergreen);
+            color: var(--stone);
+        }
+
+        .section.dark h2 { color: var(--stone); }
+        .section.dark h3 { color: var(--stone); }
+
+        .section-label { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--found-green); margin-bottom: 0.5rem; font-weight: 700; }
+        .section.dark .section-label { color: var(--highlight); }
+
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+
+        /* SPEAKERS */
+        .speaker {
+            background: var(--stone);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(158, 175, 159, 0.2);
+        }
+
+        .speaker-avatar {
+            width: 80px;
+            height: 80px;
+            background: var(--evergreen);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--highlight);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .speaker-name { font-size: 1.3rem; color: var(--evergreen); font-weight: 700; margin-bottom: 0.3rem; }
+        .speaker-title { color: var(--found-green); font-size: 0.95rem; margin-bottom: 1rem; }
+        .speaker-bio { font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; }
+        .speaker-stats { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0; font-size: 0.9rem; }
+        .speaker-stat { background: var(--highlight); color: var(--deep-forest); padding: 0.25rem 0.75rem; border-radius: 20px; font-weight: 600; }
+
+        .speaker-links { margin: 1rem 0; }
+        .link-badge {
+            display: inline-block;
+            background: var(--found-green);
+            color: var(--stone);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin: 0.3rem 0.3rem 0.3rem 0;
+            font-weight: 500;
+        }
+
+        .link-badge.not-found {
+            background: var(--sage);
+            color: var(--deep-forest);
+        }
+
+        .expandable { margin-top: 1.5rem; }
+        .expand-btn {
+            background: var(--highlight);
+            color: var(--deep-forest);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .expand-btn:hover { opacity: 0.9; }
+        .expand-content { margin-top: 1rem; display: none; padding-top: 1rem; border-top: 1px solid var(--sage); color: var(--deep-forest); }
+        .expand-content.open { display: block; }
+
+        /* AUDIENCE */
+        .audience-card {
+            background: rgba(255, 255, 242, 0.8);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid rgba(240, 254, 145, 0.3);
+        }
+
+        .audience-card h4 { color: var(--evergreen); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .audience-card p { font-size: 0.9rem; color: var(--deep-forest); }
+
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(240, 254, 145, 0.2);
+        }
+
+        .timeline-item:last-child { border-bottom: none; }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--highlight);
+            border-radius: 50%;
+            border: 3px solid var(--evergreen);
+        }
+
+        .timeline-date { font-size: 0.85rem; color: var(--found-green); font-weight: 600; letter-spacing: 1px; }
+        .timeline-title { font-weight: 600; color: var(--evergreen); margin-top: 0.3rem; }
+        .timeline-tag {
+            display: inline-block;
+            background: var(--evergreen);
+            color: var(--highlight);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        /* FUNNEL */
+        .funnel-step { margin-bottom: 2rem; }
+        .funnel-step h4 { color: var(--stone); margin-bottom: 0.5rem; }
+        .funnel-arrow {
+            text-align: center;
+            color: var(--highlight);
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .offer-card {
+            background: var(--stone);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid var(--highlight);
+            margin: 1.5rem 0;
+            color: var(--deep-forest);
+        }
+
+        .offer-card.featured {
+            background: rgba(240, 254, 145, 0.15);
+            border-left-color: var(--highlight);
+            box-shadow: 0 4px 12px rgba(240, 254, 145, 0.2);
+        }
+
+        .offer-title { font-size: 1.3rem; color: var(--evergreen); margin-bottom: 0.5rem; font-weight: 700; }
+        .offer-meta { color: var(--found-green); font-size: 0.9rem; margin-bottom: 1rem; font-weight: 500; letter-spacing: 1px; }
+        .offer-details { list-style: none; }
+        .offer-details li { padding: 0.4rem 0; font-size: 0.95rem; color: var(--deep-forest); }
+        .offer-details li::before { content: '✓ '; color: var(--found-green); font-weight: 700; margin-right: 0.5rem; }
+
+        /* CHART */
+        .bar-chart { margin: 2rem 0; }
+        .bar-item { margin-bottom: 1.5rem; }
+        .bar-label { font-size: 0.9rem; color: var(--stone); margin-bottom: 0.5rem; font-weight: 500; }
+        .bar {
+            height: 32px;
+            background: linear-gradient(90deg, var(--highlight) 0%, rgba(240, 254, 145, 0.6) 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            padding: 0 0.75rem;
+            color: var(--deep-forest);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--evergreen);
+            color: var(--stone);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .footer-logo { height: 40px; margin-bottom: 1.5rem; }
+        .footer-credit { font-size: 0.85rem; opacity: 0.8; margin: 1rem 0; }
+        .footer-disclaimer { font-size: 0.75rem; opacity: 0.7; max-width: 800px; margin: 1.5rem auto; }
+
+        .export-btn {
+            background: var(--highlight);
+            color: var(--deep-forest);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .export-btn:hover { opacity: 0.9; }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate { animation: fadeUp 0.6s ease-out forwards; opacity: 0; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.5rem; }
+            .nav-links { gap: 1rem; font-size: 0.8rem; }
+            .hero { padding: 3rem 1.5rem; }
+            .hero-title { font-size: 2rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <img src="data:image/png;base64,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bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSU3e7fvsFeMm96wz//vXdhwV5lGIQPJPeblQbzi2+GkQbji//z36MEdpEkgZ1t8O5OGMHAAAAAI74fwopj7Cxh2zWAAAAAElFTkSuQmCC" class="nav-logo" alt="The Uncommon Business">
+    <ul class="nav-links">
+        <li><a href="#snapshot">Snapshot</a></li>
+        <li><a href="#speakers">Speakers</a></li>
+        <li><a href="#audience">Audience</a></li>
+        <li><a href="#funnel">Funnel</a></li>
+    </ul>
+</nav>
+
+<section class="hero">
+    <div class="hero-content">
+        <p class="hero-label">Event Intelligence Brief</p>
+        <h1 class="hero-title">From Overwhelmed to <span class="em">Superhuman</span></h1>
+        <p class="hero-subtitle">How to Use AI to Scale Your Business & Reclaim Your Time</p>
+        <div class="hero-meta">
+            <span>Tuesday, March 31, 2026</span>
+            <span>11 AM PST / 2 PM ET</span>
+            <span>Free Live Zoom</span>
+            <span>90 Minutes</span>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="snapshot">
+    <p class="section-label">Event Overview</p>
+    <h2>Event Snapshot</h2>
+    <div class="grid-4">
+        <div class="card">
+            <div class="card-title">Format</div>
+            <div class="card-value">Free Live Zoom Training</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Speakers</div>
+            <div class="card-value">Callan Faulkner & Tatiana Budney</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Host Platform</div>
+            <div class="card-value">Tatiana's Kajabi Page</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Target Audience</div>
+            <div class="card-value">$500K-$5M Business Owners</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Agenda</div>
+            <div class="card-value">AI Workflows + Live Demos + Q&A</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Duration</div>
+            <div class="card-value">90 Minutes</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Registration</div>
+            <div class="card-value">Free (Email Opt-In)</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Structure</div>
+            <div class="card-value">Joint Venture Webinar</div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="speakers">
+    <p class="section-label">Meet the Experts</p>
+    <h2>Speaker Profiles</h2>
+    <div class="grid-2" style="margin-top: 3rem;">
+        <div class="speaker">
+            <div class="speaker-avatar">CF</div>
+            <div class="speaker-name">Callan Faulkner</div>
+            <div class="speaker-title">World's #1 AI Coach & Architect</div>
+            <div class="speaker-title" style="color: var(--evergreen); font-weight: 600;">CEO The Uncommon Business</div>
+            <p class="speaker-bio">Transitioned from land investor to AI architect. Built a $4M business in 18 months with 4–7 AI-trained employees, working under 40 hours/week. Has helped 1,500+ business owners implement AI systems through her flagship program "Automate to Accelerate" (A2A). Frequent podcast guest and in-demand speaker.</p>
+            <div class="speaker-stats">
+                <span class="speaker-stat">25K Instagram followers</span>
+                <span class="speaker-stat">1,500+ Clients</span>
+                <span class="speaker-stat">$4M in 18 months</span>
+            </div>
+            <div class="speaker-links">
+                <div><strong>Found:</strong></div>
+                <a href="https://linkedin.com/in/callan-faulkner" class="link-badge">LinkedIn</a>
+                <a href="https://instagram.com/callanfaulkner" class="link-badge">Instagram</a>
+                <span class="link-badge">X/Twitter</span>
+                <a href="https://theuncommonbusiness.co" class="link-badge">Website</a>
+            </div>
+            <div class="speaker-links">
+                <div><strong>Not Found:</strong></div>
+                <span class="link-badge not-found">TikTok</span>
+                <span class="link-badge not-found">YouTube Channel</span>
+            </div>
+            <div class="expandable">
+                <button class="expand-btn" onclick="toggleExpand(this)">+ Expand Details</button>
+                <div class="expand-content">
+                    <p><strong>Podcast Appearances:</strong> REtipster #236, Take Your Shot #079, Heartwork #44, and more</p>
+                    <p><strong>Key Speaking Topics:</strong> AI systems for business scaling, AI architect identity transformation, building a $4M business with AI-first operations</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="speaker">
+            <div class="speaker-avatar">TB</div>
+            <div class="speaker-name">Tatiana Budney</div>
+            <div class="speaker-title">AI Strategist & Newsletter Pioneer</div>
+            <div class="speaker-title" style="color: var(--evergreen); font-weight: 600;">Founder of Future AI: Unfiltered & Not Another Email</div>
+            <p class="speaker-bio">Over a decade building and monetizing newsletters behind the scenes of multiple 6- and 7-figure brands. Founder of "Future AI: Unfiltered" — one of the fastest-growing AI newsletters with 100K+ readers. Also runs "Not Another Email" (20K+ subscribers) and "Inbox by Design" membership. Based in Milwaukee, WI.</p>
+            <div class="speaker-stats">
+                <span class="speaker-stat">100K+ Newsletter Subs</span>
+                <span class="speaker-stat">750K+ Lists Scaled</span>
+                <span class="speaker-stat">10+ Years Experience</span>
+            </div>
+            <div class="speaker-links">
+                <div><strong>Found:</strong></div>
+                <a href="https://futureaiunfiltered.beehiiv.com" class="link-badge">Future AI Newsletter</a>
+                <a href="https://notanotheremail.beehiiv.com" class="link-badge">Not Another Email</a>
+                <span class="link-badge">Kajabi</span>
+            </div>
+            <div class="speaker-links">
+                <div><strong>Not Found:</strong></div>
+                <span class="link-badge not-found">LinkedIn</span>
+                <span class="link-badge not-found">Instagram</span>
+                <span class="link-badge not-found">X/Twitter</span>
+            </div>
+            <div class="expandable">
+                <button class="expand-btn" onclick="toggleExpand(this)">+ Expand Details</button>
+                <div class="expand-content">
+                    <p><strong>Notable Gap:</strong> Tatiana has almost zero public social presence — her power is in email. This is intentional and highly effective.</p>
+                    <p><strong>Newsletter Accelerator:</strong> $497, 6-week program with 12 months in Newsletter Society + ROI guarantee</p>
+                    <p><strong>Key Offering:</strong> "Inbox by Design" membership for newsletter monetization strategies</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section dark">
+    <p class="section-label">Target Demographics</p>
+    <h2>Audience Intelligence</h2>
+    
+    <div class="grid-4" style="margin: 2rem 0;">
+        <div class="audience-card">
+            <h4>Primary Audience</h4>
+            <p>Business owners with $500K-$5M revenue — established, growth-focused, cash-positive</p>
+        </div>
+        <div class="audience-card">
+            <h4>AI Sophistication</h4>
+            <p>Mixed — some familiar with AI tools, others just beginning. Warm audience with Callan familiarity.</p>
+        </div>
+        <div class="audience-card">
+            <h4>Core Pain Point</h4>
+            <p>Working 60+ hours/week, bottlenecked by manual tasks, overwhelmed by opportunities</p>
+        </div>
+        <div class="audience-card">
+            <h4>Audience Temperature</h4>
+            <p>Warm — existing Tatiana subscribers + Callan's A2A alumni + engaged followers</p>
+        </div>
+    </div>
+
+    <h3 style="margin-top: 3rem; color: var(--stone);">LinkedIn Engagement Signals</h3>
+    <p style="margin-bottom: 2rem; opacity: 0.9;">Confirmed profiles engaging with Callan's AI content:</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+        <div style="background: rgba(255, 255, 242, 0.1); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(240, 254, 145, 0.2);">
+            <p style="font-weight: 600; color: var(--highlight);">Andrea Feldman</p>
+            <p style="font-size: 0.9rem; margin-top: 0.3rem;">Realtor & AI Architect</p>
+        </div>
+        <div style="background: rgba(255, 255, 242, 0.1); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(240, 254, 145, 0.2);">
+            <p style="font-weight: 600; color: var(--highlight);">Bruce Chappell</p>
+            <p style="font-size: 0.9rem; margin-top: 0.3rem;">Senior SAP Developer at Raytheon</p>
+        </div>
+        <div style="background: rgba(255, 255, 242, 0.1); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(240, 254, 145, 0.2);">
+            <p style="font-weight: 600; color: var(--highlight);">Jordan Hagel</p>
+            <p style="font-size: 0.9rem; margin-top: 0.3rem;">Client Executive</p>
+        </div>
+        <div style="background: rgba(255, 255, 242, 0.1); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(240, 254, 145, 0.2);">
+            <p style="font-weight: 600; color: var(--highlight);">Ericka Cirera</p>
+            <p style="font-size: 0.9rem; margin-top: 0.3rem;">Senior Account Rep at Penbrothers</p>
+        </div>
+    </div>
+
+    <h3 style="margin-top: 3rem; color: var(--stone);">A2A Client Demographics</h3>
+    <div class="bar-chart">
+        <div class="bar-item">
+            <div class="bar-label">Founders & Business Owners</div>
+            <div class="bar" style="width: 40%;">40%</div>
+        </div>
+        <div class="bar-item">
+            <div class="bar-label">Coaches & Consultants</div>
+            <div class="bar" style="width: 20%;">20%</div>
+        </div>
+        <div class="bar-item">
+            <div class="bar-label">Real Estate Professionals</div>
+            <div class="bar" style="width: 15%;">15%</div>
+        </div>
+        <div class="bar-item">
+            <div class="bar-label">Marketing / CMOs</div>
+            <div class="bar" style="width: 10%;">10%</div>
+        </div>
+        <div class="bar-item">
+            <div class="bar-label">Healthcare & Service</div>
+            <div class="bar" style="width: 10%;">10%</div>
+        </div>
+        <div class="bar-item">
+            <div class="bar-label">Corporate / VAs / Other</div>
+            <div class="bar" style="width: 5%;">5%</div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <p class="section-label">Content Strategy</p>
+    <h2>Content Theme Map — March 2026</h2>
+    <div class="timeline" style="margin-top: 2rem;">
+        <div class="timeline-item">
+            <div class="timeline-date">March 26, 2026</div>
+            <div class="timeline-title">Tatiana: "The gap is getting obvious"</div>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Direct event promo in her Future AI newsletter — seizing the moment on AI awareness</p>
+            <span class="timeline-tag">DIRECT EVENT PROMO</span>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">Feb-Mar 2026</div>
+            <div class="timeline-title">AI Tool War Coverage</div>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Claude vs ChatGPT comparisons, feature analysis, and strategic AI tool positioning</p>
+            <span class="timeline-tag">AWARENESS BUILDING</span>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">February 2026</div>
+            <div class="timeline-title">"The Smartest Asset You Can Build in 2026"</div>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Authority-building essay in Not Another Email about AI as a competitive advantage</p>
+            <span class="timeline-tag">AUTHORITY BUILDING</span>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">Ongoing — March 2026</div>
+            <div class="timeline-title">Callan's "Effortless Business Bootcamp" Push</div>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">LinkedIn + Instagram stories driving traffic to $97/$197 VIP 3-session bootcamp</p>
+            <span class="timeline-tag">FUNNEL PRIMING</span>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-date">Recurring — 2026</div>
+            <div class="timeline-title">"Hire-First → AI-First" Transformation Narrative</div>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Core story: moving from hiring employees to training AI. Tatiana and Callan's shared thesis.</p>
+            <span class="timeline-tag">CORE NARRATIVE</span>
+        </div>
+    </div>
+</section>
+
+<section class="section dark">
+    <p class="section-label">Conversion Path</p>
+    <h2>Funnel Discovery</h2>
+    
+    <div class="funnel-step">
+        <h4 style="color: var(--highlight); font-size: 1.2rem;">Step 1: Free Webinar → Warm Audience Build</h4>
+        <p style="margin-top: 0.5rem; opacity: 0.9;">March 31 live event drives opt-ins, engagement, and list growth. Zero barrier to entry.</p>
+    </div>
+    
+    <div class="funnel-arrow">↓</div>
+    
+    <div class="funnel-step">
+        <h4 style="color: var(--highlight); font-size: 1.2rem;">Step 2: Effortless Business Bootcamp</h4>
+        <p style="margin-top: 0.5rem; opacity: 0.9;">$97 (general admission) or $197 (VIP — includes 3 live sessions + recordings)</p>
+    </div>
+    
+    <div class="funnel-arrow">↓</div>
+    
+    <div class="funnel-step">
+        <h4 style="color: var(--highlight); font-size: 1.2rem;">Step 3: Automate to Accelerate (A2A) Enrollment</h4>
+        <p style="margin-top: 0.5rem; opacity: 0.9;">$7,997 (PIF) or $880/month × 10 months. 12-week cohort launching May 2026.</p>
+    </div>
+
+    <div style="margin-top: 3rem;">
+        <h3 style="color: var(--stone); margin-bottom: 2rem;">Offer Details</h3>
+        
+        <div class="offer-card featured">
+            <div class="offer-title">Automate to Accelerate (A2A)</div>
+            <div class="offer-meta">PRIMARY BACKEND OFFER · $7,997 PIF or $880/mo × 10</div>
+            <ul class="offer-details">
+                <li>12 weekly live sessions</li>
+                <li>+1 free team seat included</li>
+                <li>24/7 Slack community access</li>
+                <li>Custom GPT training & templates</li>
+                <li>125+ prompt library (exclusive)</li>
+                <li>Foundations training module</li>
+                <li>Bonus GPT packages</li>
+                <li>No refund policy</li>
+            </ul>
+            <div class="expandable">
+                <button class="expand-btn" onclick="toggleExpand(this)">+ The 10 AI Systems</button>
+                <div class="expand-content">
+                    <p>A2A teaches implementation of 10 core AI systems for scaling: Content Creation, Customer Research, Email Sequences, Sales Cadences, Team Training, Proposal Generation, Admin Automation, Financial Analysis, Team Communication, Knowledge Management.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="offer-card">
+            <div class="offer-title">SuperHuman Work</div>
+            <div class="offer-meta">SELF-PACED · Price N/A</div>
+            <ul class="offer-details">
+                <li>1,500+ users enrolled</li>
+                <li>Self-paced training modules</li>
+                <li>Practical AI implementation guides</li>
+            </ul>
+        </div>
+
+        <div class="offer-card">
+            <div class="offer-title">Newsletter Accelerator (by Tatiana)</div>
+            <div class="offer-meta">6-WEEK PROGRAM · $497</div>
+            <ul class="offer-details">
+                <li>12-month access to Newsletter Society</li>
+                <li>ROI guarantee on newsletter revenue</li>
+                <li>Newsletter monetization playbook</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <p class="section-label">Distribution Analysis</p>
+    <h2>Promotion Sweep — Where Is the Event Promoted?</h2>
+    
+    <div style="margin: 2rem 0; padding: 2rem; background: var(--stone); border-radius: 12px; border-left: 4px solid var(--found-green);">
+        <h4 style="color: var(--evergreen); margin-bottom: 1rem;">Found — Active Promotion</h4>
+        <ul style="list-style: none; font-size: 0.95rem;">
+            <li style="margin: 0.5rem 0;"><strong>Future AI Newsletter</strong> (100K+ subs) — Mar 26 direct promo</li>
+            <li style="margin: 0.5rem 0;"><strong>Kajabi Landing Page</strong> — Official event registration</li>
+            <li style="margin: 0.5rem 0;"><strong>Callan's LinkedIn</strong> (25K followers) — Event announcements + urgency</li>
+            <li style="margin: 0.5rem 0;"><strong>Callan's Instagram</strong> (25K followers) — Stories, carousel posts, engagement</li>
+        </ul>
+    </div>
+
+    <div style="margin: 2rem 0; padding: 2rem; background: rgba(158, 175, 159, 0.15); border-radius: 12px; border-left: 4px solid var(--sage);">
+        <h4 style="color: var(--evergreen); margin-bottom: 1rem;">Not Found — No Evidence of Promotion</h4>
+        <ul style="list-style: none; font-size: 0.95rem;">
+            <li style="margin: 0.5rem 0;"><strong>Google Organic Search</strong> — No SEO targeting detected</li>
+            <li style="margin: 0.5rem 0;"><strong>Facebook / Meta Ads</strong> — No paid ad campaigns</li>
+            <li style="margin: 0.5rem 0;"><strong>Tatiana's Social Media</strong> — LinkedIn, Instagram, TikTok (all inactive)</li>
+            <li style="margin: 0.5rem 0;"><strong>YouTube / TikTok / Facebook Events</strong> — No video or event platform promotion</li>
+        </ul>
+    </div>
+
+    <div style="margin: 3rem 0; padding: 2rem; background: linear-gradient(135deg, rgba(35, 57, 47, 0.08) 0%, rgba(240, 254, 145, 0.08) 100%); border-radius: 12px; border: 1px solid rgba(35, 57, 47, 0.15);">
+        <h4 style="color: var(--evergreen); margin-bottom: 0.5rem;">Promotion Strategy Insight</h4>
+        <p style="font-size: 0.95rem; color: var(--deep-forest);">
+            <strong>Email-first, warm-audience play:</strong> Tatiana's list is the distribution engine. Callan amplifies to her followers. This is a high-trust, low-reach model. No paid ads = lower cost, higher conversion rate, smaller absolute audience.
+        </p>
+    </div>
+</section>
+
+<section class="section dark">
+    <p class="section-label">Strategic Insights</p>
+    <h2>Key Takeaways</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+        <div style="background: rgba(240, 254, 145, 0.15); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(240, 254, 145, 0.3);">
+            <div style="color: var(--highlight); font-weight: 700; margin-bottom: 0.5rem;">1. Joint Venture Structure</div>
+            <p style="font-size: 0.9rem;">Tatiana's email list is the distribution engine. Callan provides the AI expertise. Co-authored webinar = larger reach than either could achieve solo.</p>
+        </div>
+        <div style="background: rgba(240, 254, 145, 0.15); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(240, 254, 145, 0.3);">
+            <div style="color: var(--highlight); font-weight: 700; margin-bottom: 0.5rem;">2. Funnel Clarity</div>
+            <p style="font-size: 0.9rem;">Free webinar → $97-$197 bootcamp → $7,997 A2A. Clean three-step path. Webinar primes buyers for bootcamp, bootcamp qualifies for A2A.</p>
+        </div>
+        <div style="background: rgba(240, 254, 145, 0.15); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(240, 254, 145, 0.3);">
+            <div style="color: var(--highlight); font-weight: 700; margin-bottom: 0.5rem;">3. Audience Mix</div>
+            <p style="font-size: 0.9rem;">Warm and mixed-sophistication. Some A2A alumni, some cold prospects from Tatiana's list. No heavy paid ad spend = organic, trusted distribution.</p>
+        </div>
+        <div style="background: rgba(240, 254, 145, 0.15); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(240, 254, 145, 0.3);">
+            <div style="color: var(--highlight); font-weight: 700; margin-bottom: 0.5rem;">4. Tatiana's Hidden Power</div>
+            <p style="font-size: 0.9rem;">Almost zero public social presence, yet 100K+ newsletter subscribers and 750K+ email lists managed. Her entire authority is email-native.</p>
+        </div>
+        <div style="background: rgba(240, 254, 145, 0.15); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(240, 254, 145, 0.3);">
+            <div style="color: var(--highlight); font-weight: 700; margin-bottom: 0.5rem;">5. Callan's Narrative</div>
+            <p style="font-size: 0.9rem;">"AI Architect" identity positioning. Story is transformation from land investing → AI systems. Primes people to see themselves as future AI architects.</p>
+        </div>
+        <div style="background: rgba(240, 254, 145, 0.15); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(240, 254, 145, 0.3);">
+            <div style="color: var(--highlight); font-weight: 700; margin-bottom: 0.5rem;">6. Private Channel Play</div>
+            <p style="font-size: 0.9rem;">No paid ads, no SEO, no YouTube/TikTok. Entirely private channels (email, LinkedIn, Instagram). Smaller audience, higher trust, higher conversion.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <p class="section-label">References</p>
+    <h2>Sources & Methodology</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; font-size: 0.9rem;">
+        <div>
+            <h4 style="color: var(--evergreen); margin-bottom: 1rem;">Event & Program URLs</h4>
+            <ul style="list-style: none;">
+                <li style="margin: 0.5rem 0;"><a href="https://theuncommonbusiness.co" style="color: var(--evergreen); text-decoration: none; font-weight: 500;">theuncommonbusiness.co</a></li>
+                <li style="margin: 0.5rem 0;"><a href="https://theuncommonbusiness.co/automate-to-accelerate" style="color: var(--evergreen); text-decoration: none; font-weight: 500;">A2A Sales Page</a></li>
+                <li style="margin: 0.5rem 0;"><a href="https://futureaiunfiltered.beehiiv.com" style="color: var(--evergreen); text-decoration: none; font-weight: 500;">Future AI: Unfiltered Newsletter</a></li>
+                <li style="margin: 0.5rem 0;"><a href="https://notanotheremail.beehiiv.com" style="color: var(--evergreen); text-decoration: none; font-weight: 500;">Not Another Email Newsletter</a></li>
+                <li style="margin: 0.5rem 0;"><a href="https://tatiana.kajabi.com" style="color: var(--evergreen); text-decoration: none; font-weight: 500;">Tatiana's Kajabi Page</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 style="color: var(--evergreen); margin-bottom: 1rem;">Social & Professional</h4>
+            <ul style="list-style: none;">
+                <li style="margin: 0.5rem 0;"><a href="https://linkedin.com/in/callan-faulkner" style="color: var(--evergreen); text-decoration: none; font-weight: 500;">Callan Faulkner LinkedIn</a></li>
+                <li style="margin: 0.5rem 0;"><a href="https://instagram.com/callanfaulkner" style="color: var(--evergreen); text-decoration: none; font-weight: 500;">Callan Faulkner Instagram</a></li>
+                <li style="margin: 0.5rem 0;"><a href="https://twitter.com/callanfaulkner" style="color: var(--evergreen); text-decoration: none; font-weight: 500;">Callan Faulkner X/Twitter</a></li>
+                <li style="margin: 0.5rem 0;"><a href="https://podcast.theuncommonbusiness.co" style="color: var(--evergreen); text-decoration: none; font-weight: 500;">TUB Podcast</a></li>
+                <li style="margin: 0.5rem 0;"><a href="https://linkedin.com/feed/hashtag/%23automate-to-accelerate" style="color: var(--evergreen); text-decoration: none; font-weight: 500;">A2A LinkedIn Discussions</a></li>
+            </ul>
+        </div>
+    </div>
+    <p style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--sage); font-size: 0.85rem; opacity: 0.8;">
+        <strong>Methodology:</strong> This brief was compiled through direct source analysis (official websites, newsletters, social channels), LinkedIn profile data scraping, email content review, and Kajabi event page inspection. All data current as of March 28, 2026. Analysis focuses on verified publicly available information only.
+    </p>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <img src="data:image/png;base64,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bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSW5bHHpdSU3e7fvsFeMm96wz//vXdhwV5lGIQPJPeblQbzi2+GkQbji//z36MEdpEkgZ1t8O5OGMHAAAAAI74fwopj7Cxh2zWAAAAAElFTkSuQmCC" class="footer-logo" alt="The Uncommon Business">
+        <p class="footer-credit">Generated by Event Intel 360 · March 28, 2026</p>
+        <button class="export-btn" onclick="exportPDF()">Export as PDF</button>
+        <p class="footer-disclaimer">
+            This intelligence brief is compiled from publicly available sources and direct analysis. Data represents verified information as of March 28, 2026. Projections and audience estimates are derived from LinkedIn engagement signals, newsletter subscriber counts, and historical conversion data. See Sources section for methodology.
+        </p>
+    </div>
+</footer>
+
+<script>
+function toggleExpand(btn) {
+    const content = btn.nextElementSibling;
+    content.classList.toggle('open');
+    btn.textContent = content.classList.contains('open') ? '- Collapse' : '+ Expand Details';
+}
+
+function exportPDF() {
+    window.print();
+}
+
+// Intersection Observer for fade-in animations
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.section, .card, .speaker').forEach(el => {
+    el.classList.add('animate');
+    observer.observe(el);
+});
+
+// Smooth scroll for nav links
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+// Add visible state styling
+const style = document.createElement('style');
+style.textContent = `.animate.visible { animation: fadeUp 0.6s ease-out forwards !important; }`;
+document.head.appendChild(style);
+</script>
+
+</body>
+</html>
